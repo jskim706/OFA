@@ -108,7 +108,7 @@ for max_epoch in 2; do
           --drop-worst-after=${drop_worst_after} \
           --fp16 \
           --fp16-scale-window=512 \
-          --num-workers=0 > ${log_file} 2>&1
+          --num-workers=0
     done
   done
 done
