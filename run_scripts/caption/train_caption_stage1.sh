@@ -8,16 +8,22 @@ log_dir=./stage1_logs
 save_dir=./stage1_checkpoints
 mkdir -p $log_dir $save_dir
 
-bpe_dir=../../utils/BPE
-user_dir=../../ofa_module
+bpe_dir=utils/BPE
+user_dir=ofa_module
 
-data_dir=../../dataset/caption_data
+data_dir=/data/coco_caption/caption_data
 data=${data_dir}/caption_stage1_train.tsv,${data_dir}/caption_val.tsv
-restore_file=../../checkpoints/ofa_large.pt
+restore_file=checkpoints/ofa_base.pt
 selected_cols=0,4,2
 
+
+prompt_type_method=prefix
+encoder_prompt_length=100
+decoder_prompt_length=100
+
+
 task=caption
-arch=ofa_large
+arch=ofa_base
 criterion=adjust_label_smoothed_cross_entropy
 label_smoothing=0.1
 lr=1e-5

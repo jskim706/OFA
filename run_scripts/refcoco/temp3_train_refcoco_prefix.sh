@@ -13,7 +13,7 @@ user_dir=ofa_module
 
 data_dir=/data/refcoco
 data=${data_dir}/refcoco_train.tsv,${data_dir}/refcoco_val.tsv
-restore_file=checkpoints/ofa_large.pt
+restore_file=checkpoints/ofa_base.pt
 selected_cols=0,4,2,3
 
 prompt_type_method=prefix
@@ -21,7 +21,7 @@ encoder_prompt_length=100
 decoder_prompt_length=100
 
 task=refcoco
-arch=ofa_large
+arch=ofa_base
 criterion=adjust_label_smoothed_cross_entropy
 label_smoothing=0.1
 lr=3e-5
