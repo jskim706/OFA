@@ -9,7 +9,7 @@ save_dir=./refcoco_checkpoints
 mkdir -p $log_dir $save_dir
 
 bpe_dir=utils/BPE
-user_dir=../../ofa_module
+user_dir=ofa_module
 
 data_dir=/data/refcoco
 data=${data_dir}/refcoco_train.tsv,${data_dir}/refcoco_val.tsv
