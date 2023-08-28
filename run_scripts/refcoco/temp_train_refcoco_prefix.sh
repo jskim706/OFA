@@ -11,7 +11,7 @@ mkdir -p $log_dir $save_dir
 bpe_dir=../../utils/BPE
 user_dir=../../ofa_module
 
-data_dir=../../dataset/refcoco_data
+data_dir=/data/refcoco
 data=${data_dir}/refcoco_train.tsv,${data_dir}/refcoco_val.tsv
 restore_file=../../checkpoints/ofa_large.pt
 selected_cols=0,4,2,3
