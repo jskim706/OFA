@@ -72,7 +72,7 @@ val_inference_type=allcand
 unconstrained_training_flag=""
 # unconstrained_training_flag="--unconstrained-training"
 
-for max_epoch in 5; do
+for max_epoch in 3; do
   echo "max_epoch "${max_epoch}
   for warmup_ratio in 0.04; do
     echo "warmup_updates "${warmup_updates}
@@ -190,7 +190,7 @@ data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/vqa_train_1.tsv,${data_dir}/vqa_train_2.tsv,${data_dir}/vqa_train_3.tsv,${data_dir}/vqa_train_4.tsv,${data_dir}/vqa_train_5.tsv,${data_dir}/vqa_train_6.tsv,${data_dir}/vqa_train_7.tsv,${data_dir}/vqa_train_8.tsv,${data_dir}/vqa_train_9.tsv,${data_dir}/vqa_train_10.tsv,${data_dir}/vqa_val.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
-restore_file=./vqa_checkpoints/5_0.04_5e-5_480/checkpoint_best.pt #TODO
+restore_file=./vqa_checkpoints/3_0.04_5e-5_480/checkpoint_best.pt #TODO
 selected_cols=0,5,2,3,4
 
 
