@@ -8,7 +8,7 @@ log_dir=./refcoco_logs
 save_dir=./refcoco_checkpoints
 mkdir -p $log_dir $save_dir
 
-bpe_dir=../../utils/BPE
+bpe_dir=utils/BPE
 user_dir=../../ofa_module
 
 data_dir=/data/refcoco
