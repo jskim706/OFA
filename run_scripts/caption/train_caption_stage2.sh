@@ -8,13 +8,18 @@ log_dir=./stage2_logs
 save_dir=./stage2_checkpoints
 mkdir -p $log_dir $save_dir
 
-bpe_dir=../../utils/BPE
-user_dir=../../ofa_module
+bpe_dir=utils/BPE
+user_dir=ofa_module
 
-data_dir=../../dataset/caption_data
-data=${data_dir}/caption_stage2_train.tsv,${data_dir}/caption_val.tsv
-restore_file=../../checkpoints/caption_stage1_best.pt
+data_dir=/data/coco_caption/caption_data
+data=${data_dir}/caption_stage1_train.tsv,${data_dir}/caption_val.tsv
+restore_file=./stage1_checkpoints/2_0.06_2500/checkpoint_best.pt #TODO
 selected_cols=1,4,2
+
+
+prompt_type_method=prefix
+encoder_prompt_length=100
+decoder_prompt_length=100
 
 task=caption
 arch=ofa_large
@@ -23,7 +28,7 @@ label_smoothing=0.1
 lr=1e-5
 max_epoch=5
 warmup_ratio=0.06
-batch_size=2
+batch_size=16
 update_freq=4
 resnet_drop_path_rate=0.0
 encoder_drop_path_rate=0.0
@@ -100,6 +105,14 @@ for lr in 1e-5; do
         --scst-args='{"beam":5,"max_len_b":16,"no_repeat_ngram_size":3}' \
         --memory-efficient-fp16 \
         --fp16-scale-window=512 \
-        --num-workers=0 > ${log_file} 2>&1
+        --num-workers=1 \
+        --encoder-prompt \
+        --decoder-prompt \
+        --encoder-prompt-type=${prompt_type_method} \
+        --decoder-prompt-type=${prompt_type_method} \
+        --encoder-prompt-length=${encoder_prompt_length} \
+        --decoder-prompt-length=${decoder_prompt_length} \
+        --wandb-project=cocoicfull \
+        --pgf-2nd-stage
   done
 done

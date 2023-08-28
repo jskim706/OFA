@@ -23,7 +23,7 @@ data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/vqa_train_1.tsv,${data_dir}/vqa_train_2.tsv,${data_dir}/vqa_train_3.tsv,${data_dir}/vqa_train_4.tsv,${data_dir}/vqa_train_5.tsv,${data_dir}/vqa_train_6.tsv,${data_dir}/vqa_train_7.tsv,${data_dir}/vqa_train_8.tsv,${data_dir}/vqa_train_9.tsv,${data_dir}/vqa_train_10.tsv,${data_dir}/vqa_val.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
-restore_file=checkpoints/ofa_base.pt
+restore_file=./vqa_checkpoints/15_0.04_5e-5/checkpoint_best.pt #TODO
 selected_cols=0,5,2,3,4
 
 
@@ -42,7 +42,7 @@ task=vqa_gen
 arch=ofa_base
 criterion=adjust_label_smoothed_cross_entropy
 label_smoothing=0.1
-batch_size=8
+batch_size=4
 update_freq=4
 resnet_drop_path_rate=0.0
 encoder_drop_path_rate=0.1
@@ -159,7 +159,8 @@ for max_epoch in 15; do
             --decoder-prompt-type=${prompt_type_method} \
             --encoder-prompt-length=${encoder_prompt_length} \
             --decoder-prompt-length=${decoder_prompt_length} \
-            --wandb-project=vqaprompt
+            --wandb-project=vqafull \
+            --pgf-2nd-stage
       done
     done
   done
