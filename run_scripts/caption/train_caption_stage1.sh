@@ -115,6 +115,7 @@ for max_epoch in 2; do
           --decoder-prompt-type=${prompt_type_method} \
           --encoder-prompt-length=${encoder_prompt_length} \
           --decoder-prompt-length=${decoder_prompt_length} \
+          --wandb-project=cocoicprompt
     done
   done
 done

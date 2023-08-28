@@ -228,6 +228,9 @@ class AdjustLabelSmoothedCrossEntropyCriterion(FairseqCriterion):
             print(f"-math.inf : {type(-math.inf)}")
             print(f"test : {net_output[0].masked_fill(~constraint_masks, -math.inf)}")
             temp = net_output[0].masked_fill(~constraint_masks, -math.inf)
+            print(f"temp : {type(temp)}")
+            print(f"net_output[0] : {type(net_output[0])}")
+
             net_output[0] = temp
         if self.constraint_start is not None and self.constraint_end is not None:
             net_output[0][:, :, 4:self.constraint_start] = -math.inf

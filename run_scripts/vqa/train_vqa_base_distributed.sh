@@ -152,7 +152,14 @@ for max_epoch in 15; do
             --ema-decay=${ema_decay} \
             --ema-start-update=${ema_start_update} \
             --val-inference-type=${val_inference_type} \
-            --num-workers=1
+            --num-workers=1 \
+            --encoder-prompt \
+            --decoder-prompt \
+            --encoder-prompt-type=${prompt_type_method} \
+            --decoder-prompt-type=${prompt_type_method} \
+            --encoder-prompt-length=${encoder_prompt_length} \
+            --decoder-prompt-length=${decoder_prompt_length} \
+            --wandb-project=vqaprompt
       done
     done
   done
