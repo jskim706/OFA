@@ -47,7 +47,7 @@ log_file=${log_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}".log"
 save_path=${save_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}
 mkdir -p $save_path
 
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=${MASTER_PORT} ../../train.py \
+python ../../train.py \
     $data \
     --selected-cols=${selected_cols} \
     --bpe-dir=${bpe_dir} \
