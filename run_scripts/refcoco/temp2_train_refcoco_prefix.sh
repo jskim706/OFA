@@ -49,7 +49,7 @@ log_file=${log_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}".log"
 save_path=${save_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}
 mkdir -p $save_path
 
-python3 --master_port=${MASTER_PORT} train.py \
+python3 train.py \
     $data \
     --selected-cols=${selected_cols} \
     --bpe-dir=${bpe_dir} \
