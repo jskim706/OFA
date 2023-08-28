@@ -27,7 +27,7 @@ label_smoothing=0.1
 lr=3e-5
 max_epoch=5
 warmup_ratio=0.06
-batch_size=4
+batch_size=8
 update_freq=8
 resnet_drop_path_rate=0.0
 encoder_drop_path_rate=0.2
@@ -49,7 +49,7 @@ log_file=${log_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}".log"
 save_path=${save_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}
 mkdir -p $save_path
 
-CUDA_VISIBLE_DEVICES=4,5 python3 -m torch.distributed.launch --nproc_per_node=2 --master_port=${MASTER_PORT} train.py \
+CUDA_VISIBLE_DEVICES=4,5,6,7 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} train.py \
     $data \
     --selected-cols=${selected_cols} \
     --bpe-dir=${bpe_dir} \
