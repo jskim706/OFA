@@ -108,7 +108,13 @@ for max_epoch in 2; do
           --drop-worst-after=${drop_worst_after} \
           --fp16 \
           --fp16-scale-window=512 \
-          --num-workers=1
+          --num-workers=1 \
+          --encoder-prompt \
+          --decoder-prompt \
+          --encoder-prompt-type=${prompt_type_method} \
+          --decoder-prompt-type=${prompt_type_method} \
+          --encoder-prompt-length=${encoder_prompt_length} \
+          --decoder-prompt-length=${decoder_prompt_length} \
     done
   done
 done
