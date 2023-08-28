@@ -144,7 +144,7 @@ encoder_prompt_length=100
 decoder_prompt_length=100
 
 task=caption
-arch=ofa_large
+arch=ofa_base
 criterion=scst_reward_criterion
 label_smoothing=0.1
 lr=1e-5
