@@ -1,5 +1,5 @@
 -e ./fairseq/
-opencv-python==4.6.0
+opencv-python==4.6.0.66
 timm
 ftfy==6.0.3
 tensorboardX==2.4.1
