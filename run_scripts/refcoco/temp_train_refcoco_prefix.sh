@@ -47,6 +47,8 @@ log_file=${log_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}".log"
 save_path=${save_dir}/${max_epoch}"_"${lr}"_"${patch_image_size}
 mkdir -p $save_path
 
+python ../../train.py
+
 python ../../train.py \
     $data \
     --selected-cols=${selected_cols} \
