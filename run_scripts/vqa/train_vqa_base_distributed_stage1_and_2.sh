@@ -72,7 +72,7 @@ val_inference_type=allcand
 unconstrained_training_flag=""
 # unconstrained_training_flag="--unconstrained-training"
 
-for max_epoch in 5; do
+for max_epoch in 10; do
   echo "max_epoch "${max_epoch}
   for warmup_ratio in 0.04; do
     echo "warmup_updates "${warmup_updates}
