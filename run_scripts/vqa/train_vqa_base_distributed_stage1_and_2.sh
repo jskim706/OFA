@@ -72,7 +72,7 @@ val_inference_type=allcand
 unconstrained_training_flag=""
 # unconstrained_training_flag="--unconstrained-training"
 
-for max_epoch in 3; do
+for max_epoch in 5; do
   echo "max_epoch "${max_epoch}
   for warmup_ratio in 0.04; do
     echo "warmup_updates "${warmup_updates}
@@ -81,8 +81,8 @@ for max_epoch in 3; do
       for patch_image_size in 480; do
         echo "patch_image_size "${patch_image_size}
 
-        log_file=${log_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}"_rank"${RANK}".log"
-        save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}
+        log_file=${log_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1"_rank"${RANK}".log"
+        save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1
         mkdir -p $save_path
 
         CUDA_VISIBLE_DEVICES=4,5,6,7 python3 -m torch.distributed.launch --nproc_per_node=${GPUS_PER_NODE} --nnodes=${WORKER_CNT} --node_rank=${RANK} --master_port=${MASTER_PORT} train.py \
@@ -159,7 +159,7 @@ for max_epoch in 3; do
             --decoder-prompt-type=${prompt_type_method} \
             --encoder-prompt-length=${encoder_prompt_length} \
             --decoder-prompt-length=${decoder_prompt_length} \
-            --wandb-project=vqaprompt
+            --wandb-project=vqa_st1_st2
       done
     done
   done
@@ -190,7 +190,7 @@ data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/vqa_train_1.tsv,${data_dir}/vqa_train_2.tsv,${data_dir}/vqa_train_3.tsv,${data_dir}/vqa_train_4.tsv,${data_dir}/vqa_train_5.tsv,${data_dir}/vqa_train_6.tsv,${data_dir}/vqa_train_7.tsv,${data_dir}/vqa_train_8.tsv,${data_dir}/vqa_train_9.tsv,${data_dir}/vqa_train_10.tsv,${data_dir}/vqa_val.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
-restore_file=./vqa_checkpoints/3_0.04_5e-5_480/checkpoint_best.pt #TODO
+restore_file=./vqa_checkpoints/5_0.04_5e-5_480_stage1/checkpoint_best.pt #TODO
 selected_cols=0,5,2,3,4
 
 
@@ -248,8 +248,8 @@ for max_epoch in 15; do
       for patch_image_size in 480; do
         echo "patch_image_size "${patch_image_size}
 
-        log_file=${log_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}"_rank"${RANK}".log"
-        save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}
+        log_file=${log_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage2"_rank"${RANK}".log"
+        save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage2
         mkdir -p $save_path
 
         CUDA_VISIBLE_DEVICES=4,5,6,7 python3 -m torch.distributed.launch --nproc_per_node=${GPUS_PER_NODE} --nnodes=${WORKER_CNT} --node_rank=${RANK} --master_port=${MASTER_PORT} train.py \
@@ -326,7 +326,7 @@ for max_epoch in 15; do
             --decoder-prompt-type=${prompt_type_method} \
             --encoder-prompt-length=${encoder_prompt_length} \
             --decoder-prompt-length=${decoder_prompt_length} \
-            --wandb-project=vqafull \
+            --wandb-project=vqa_st1_st2 \
             --pgf-2nd-stage
       done
     done
