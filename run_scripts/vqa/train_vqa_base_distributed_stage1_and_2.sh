@@ -62,7 +62,7 @@ ema_start_update=0
 
 # Specify the inference type in validation after each fine-tuning epoch
 # As mentioned in the readme, you can choose from allcand or beamsearch evaluation, default to allcand
-val_inference_type=allcand
+val_inference_type=beamsearch
 
 # Specify whether to activate unconstrained VQA finetuning, which does not use a pre-defined candidate answer set
 # If --unconstrained-training is acitvated, --ans2label-file will **not be used even if it is specified**

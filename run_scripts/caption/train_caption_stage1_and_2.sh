@@ -27,7 +27,6 @@ arch=ofa_base
 criterion=adjust_label_smoothed_cross_entropy
 label_smoothing=0.1
 lr=1e-5
-max_epoch=5
 warmup_ratio=0.06
 batch_size=16
 update_freq=4
