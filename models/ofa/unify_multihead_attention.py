@@ -340,6 +340,8 @@ class MultiheadAttention(nn.Module):
         if key_padding_mask is not None:
             assert key_padding_mask.size(0) == bsz
             if key_padding_mask.size(1) < k.size(1):
+                print(f"key_padding_mask.shape: {key_padding_mask.shape}")
+                print(f"k.shape: {k.shape}")
                 key_padding_mask = torch.cat(
                     [key_padding_mask, k[:,key_padding_mask.size(1)-k.size(1):]], dim=1)
             else:
