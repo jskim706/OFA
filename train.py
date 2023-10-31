@@ -185,6 +185,14 @@ def main(cfg: FairseqConfig) -> None:
     lr = trainer.get_lr()
 
     train_meter = meters.StopwatchMeter()
+
+    valid_subsets = cfg.dataset.valid_subset.split(",")
+
+    zeroshot_valid_losses, _ = validate_and_save(
+        cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=True
+    )
+    logger.info(f"zero_shot result is {zeroshot_valid_losses}.")
+
     train_meter.start()
     while epoch_itr.next_epoch_idx <= max_epoch:
         if lr <= cfg.optimization.stop_min_lr:
@@ -358,6 +366,7 @@ def validate_and_save(
     epoch_itr,
     valid_subsets: List[str],
     end_of_epoch: bool,
+    zero_shot: bool = False,
 ) -> Tuple[List[Optional[float]], bool]:
     num_updates = trainer.get_num_updates()
     max_update = cfg.optimization.max_update or math.inf
@@ -413,10 +422,13 @@ def validate_and_save(
     should_stop |= should_stop_early(cfg, valid_losses[0])
 
     # Save checkpoint
-    if do_save or should_stop:
-        checkpoint_utils.save_checkpoint(
-            cfg.checkpoint, trainer, epoch_itr, valid_losses[0]
-        )
+    if not zero_shot:
+        if do_save or should_stop:
+            checkpoint_utils.save_checkpoint(
+                cfg.checkpoint, trainer, epoch_itr, valid_losses[0]
+            )
+    else:
+        pass
 
     return valid_losses, should_stop
 
@@ -445,14 +457,11 @@ def validate(
         logger.info('begin validation on "{}" subset'.format(subset))
 
         # Initialize data iterator
-        print("vaild448")
         itr = trainer.get_valid_iterator(subset).next_epoch_itr(
             shuffle=False, set_dataset_epoch=False  # use a fixed valid set
         )
-        print("vaild452")
         if cfg.common.tpu:
             itr = utils.tpu_data_loader(itr)
-        print("vaild455")
         progress = progress_bar.progress_bar(
             itr,
             log_format=cfg.common.log_format,
@@ -477,25 +486,24 @@ def validate(
 
         # create a new root metrics aggregator so validation metrics
         # don't pollute other aggregators (e.g., train meters)
-        print("vaild480")
         with metrics.aggregate(new_root=True) as agg:
             for i, sample in enumerate(progress):
                 if cfg.dataset.max_valid_steps is not None and i > cfg.dataset.max_valid_steps:
                     break
                 trainer.valid_step(sample)
-        print("vaild486")
+
         # log validation stats
         if hasattr(task, 'get_valid_stats'):
             stats = task.get_valid_stats(cfg, trainer, agg.get_smoothed_values())
         else:
             stats = agg.get_smoothed_values()
         stats = get_valid_stats(cfg, trainer, stats)
-        print("vaild493")
+
         if hasattr(task, "post_validate"):
             task.post_validate(trainer.get_model(), stats, agg)
-        print("vaild496")
+
         progress.print(stats, tag=subset, step=trainer.get_num_updates())
-        print("vaild498")
+
         valid_losses.append(stats[cfg.checkpoint.best_checkpoint_metric])
     return valid_losses
 
