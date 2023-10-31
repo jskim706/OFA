@@ -339,7 +339,7 @@ class MultiheadAttention(nn.Module):
             v = torch.cat([prompt_v, v], dim=1)
         if key_padding_mask is not None:
             assert key_padding_mask.size(0) == bsz
-            assert key_padding_mask.size(1) == k.size(1)
+            assert key_padding_mask.size(1) == k.size(1), "AssertionError key_padding_mask.size(1) = {}, k.size(1) = {}".format(key_padding_mask.size(1), k.size(1))
         attn_weights = torch.bmm(q, k.transpose(1, 2))
         attn_weights = self.apply_sparse_mask(attn_weights, tgt_len, k.size(1), bsz)
 
