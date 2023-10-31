@@ -1693,9 +1693,12 @@ class TransformerDecoder(FairseqIncrementalDecoder):
         if self.cross_self_attention or prev_output_tokens.eq(
                 self.padding_idx).any():
             self_attn_padding_mask = prev_output_tokens.eq(self.padding_idx)
-            if prompt_padding_mask is not None:
-                self_attn_padding_mask = torch.cat(
-                    [prompt_padding_mask, self_attn_padding_mask], dim=1)
+            # if prompt_padding_mask is not None:
+            #     self_attn_padding_mask = torch.cat(
+            #         [prompt_padding_mask, self_attn_padding_mask], dim=1)
+            #TODO temp test
+            if not incremental_state and prompt_padding_mask is not None:
+                self_attn_padding_mask = torch.cat([prompt_padding_mask, self_attn_padding_mask], dim=1)
 
         # decoder layers
         attn: Optional[Tensor] = None
