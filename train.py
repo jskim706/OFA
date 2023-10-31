@@ -457,6 +457,7 @@ def validate(
         logger.info('begin validation on "{}" subset'.format(subset))
 
         # Initialize data iterator
+        print("vaild448")
         itr = trainer.get_valid_iterator(subset).next_epoch_itr(
             shuffle=False, set_dataset_epoch=False  # use a fixed valid set
         )
@@ -486,24 +487,25 @@ def validate(
 
         # create a new root metrics aggregator so validation metrics
         # don't pollute other aggregators (e.g., train meters)
+        print("vaild480")
         with metrics.aggregate(new_root=True) as agg:
             for i, sample in enumerate(progress):
                 if cfg.dataset.max_valid_steps is not None and i > cfg.dataset.max_valid_steps:
                     break
                 trainer.valid_step(sample)
-
+        print("vaild486")
         # log validation stats
         if hasattr(task, 'get_valid_stats'):
             stats = task.get_valid_stats(cfg, trainer, agg.get_smoothed_values())
         else:
             stats = agg.get_smoothed_values()
         stats = get_valid_stats(cfg, trainer, stats)
-
+        print("vaild493")
         if hasattr(task, "post_validate"):
             task.post_validate(trainer.get_model(), stats, agg)
-
+        print("vaild496")
         progress.print(stats, tag=subset, step=trainer.get_num_updates())
-
+        print("vaild498")
         valid_losses.append(stats[cfg.checkpoint.best_checkpoint_metric])
     return valid_losses
 
