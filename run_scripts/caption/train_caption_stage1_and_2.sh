@@ -54,7 +54,7 @@ for max_epoch in 5; do
       save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${drop_worst_after}
       mkdir -p $save_path
 
-      CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} train_gs.py \
+      CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} train.py \
           $data \
           --selected-cols=${selected_cols} \
           --bpe-dir=${bpe_dir} \
@@ -173,7 +173,7 @@ for lr in 1e-5; do
     save_path=${save_dir}/${lr}"_"${max_epoch}
     mkdir -p $save_path
 
-    CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} ../../train_gs.py \
+    CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} ../../train.py \
         $data \
         --selected-cols=${selected_cols} \
         --bpe-dir=${bpe_dir} \
