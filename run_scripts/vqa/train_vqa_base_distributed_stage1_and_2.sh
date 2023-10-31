@@ -32,7 +32,7 @@ encoder_prompt_length=100
 decoder_prompt_length=100
 
 log_dir=./vqa_logs
-save_dir=./vqa_checkpoints
+save_dir=./vqa_checkpoints_1031_beamsearch
 mkdir -p $log_dir $save_dir
 
 bpe_dir=utils/BPE
@@ -62,7 +62,7 @@ ema_start_update=0
 
 # Specify the inference type in validation after each fine-tuning epoch
 # As mentioned in the readme, you can choose from allcand or beamsearch evaluation, default to allcand
-val_inference_type=allcand
+val_inference_type=beamsearch
 
 # Specify whether to activate unconstrained VQA finetuning, which does not use a pre-defined candidate answer set
 # If --unconstrained-training is acitvated, --ans2label-file will **not be used even if it is specified**
@@ -190,7 +190,7 @@ data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/vqa_train_1.tsv,${data_dir}/vqa_train_2.tsv,${data_dir}/vqa_train_3.tsv,${data_dir}/vqa_train_4.tsv,${data_dir}/vqa_train_5.tsv,${data_dir}/vqa_train_6.tsv,${data_dir}/vqa_train_7.tsv,${data_dir}/vqa_train_8.tsv,${data_dir}/vqa_train_9.tsv,${data_dir}/vqa_train_10.tsv,${data_dir}/vqa_val.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
-restore_file=./vqa_checkpoints/5_0.04_5e-5_480_stage1/checkpoint_best.pt #TODO
+restore_file=./vqa_checkpoints_1031_beamsearch/10_0.04_5e-5_480_stage1/checkpoint_best.pt #TODO
 selected_cols=0,5,2,3,4
 
 
@@ -229,7 +229,7 @@ ema_start_update=0
 
 # Specify the inference type in validation after each fine-tuning epoch
 # As mentioned in the readme, you can choose from allcand or beamsearch evaluation, default to allcand
-val_inference_type=allcand
+val_inference_type=beamsearch
 
 # Specify whether to activate unconstrained VQA finetuning, which does not use a pre-defined candidate answer set
 # If --unconstrained-training is acitvated, --ans2label-file will **not be used even if it is specified**
