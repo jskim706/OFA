@@ -5,7 +5,7 @@
 export MASTER_PORT=1051
 
 log_dir=./stage1_logs
-save_dir=./stage1_checkpoints
+save_dir=./coco_caption/stage1_checkpoints
 mkdir -p $log_dir $save_dir
 
 bpe_dir=utils/BPE
@@ -43,7 +43,7 @@ patch_image_size=480
 eval_cider_cached=${data_dir}/cider_cached_tokens/coco-valid-words.p
 drop_worst_ratio=0.2
 
-for max_epoch in 2; do
+for max_epoch in 5; do
   echo "max_epoch "${max_epoch}
   for warmup_ratio in 0.06; do
     echo "warmup_ratio "${warmup_ratio}
@@ -54,7 +54,7 @@ for max_epoch in 2; do
       save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${drop_worst_after}
       mkdir -p $save_path
 
-      CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} train.py \
+      CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} train_gs.py \
           $data \
           --selected-cols=${selected_cols} \
           --bpe-dir=${bpe_dir} \
@@ -127,7 +127,7 @@ done
 export MASTER_PORT=1052
 
 log_dir=./stage2_logs
-save_dir=./stage2_checkpoints
+save_dir=./coco_caption/stage2_checkpoints
 mkdir -p $log_dir $save_dir
 
 bpe_dir=utils/BPE
@@ -135,7 +135,7 @@ user_dir=ofa_module
 
 data_dir=/data/coco_caption/caption_data
 data=${data_dir}/caption_stage1_train.tsv,${data_dir}/caption_val.tsv
-restore_file=./stage1_checkpoints/2_0.06_2500/checkpoint_best.pt #TODO
+restore_file=./coco_caption/stage1_checkpoints/5_0.06_2500/checkpoint_best.pt #TODO
 selected_cols=1,4,2
 
 
@@ -173,7 +173,7 @@ for lr in 1e-5; do
     save_path=${save_dir}/${lr}"_"${max_epoch}
     mkdir -p $save_path
 
-    CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} ../../train.py \
+    CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} ../../train_gs.py \
         $data \
         --selected-cols=${selected_cols} \
         --bpe-dir=${bpe_dir} \
