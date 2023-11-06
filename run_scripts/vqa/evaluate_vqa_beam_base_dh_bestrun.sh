@@ -8,7 +8,7 @@ bpe_dir=utils/BPE
 user_dir=ofa_module
 
 # val or test
-split=test
+split=val
 
 
 data_dir=/data/vqa/vqa_data
