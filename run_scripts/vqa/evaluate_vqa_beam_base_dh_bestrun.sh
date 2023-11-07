@@ -9,7 +9,8 @@ user_dir=ofa_module
 
 # val or test
 split=val
-
+#test score : 0.2126
+#val score : 0.7674
 
 data_dir=/data/vqa/vqa_data
 data=${data_dir}/vqa_${split}.tsv
