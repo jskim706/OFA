@@ -77,7 +77,7 @@ for max_epoch in 1; do
   echo "max_epoch "${max_epoch}
   for warmup_ratio in 0.04; do
     echo "warmup_updates "${warmup_ratio}
-    for lr in {1e-6, 1e-5,1e-4}; do
+    for lr in {1e-6, 1e-5}; do
       echo "lr "${lr}
       for patch_image_size in 480; do
         echo "patch_image_size "${patch_image_size}
