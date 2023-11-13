@@ -29,8 +29,8 @@ selected_cols=0,5,2,3,4
 
 
 prompt_type_method=prefix
-encoder_prompt_length=20
-decoder_prompt_length=20
+encoder_prompt_length=50
+decoder_prompt_length=50
 
 log_dir=./vqa_logs
 save_dir=./vqa_checkpoints_1107_beamsearch_2
