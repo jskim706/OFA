@@ -24,7 +24,7 @@ data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/vqa_train_1.tsv,${data_dir}/vqa_train_2.tsv,${data_dir}/vqa_train_3.tsv,${data_dir}/vqa_train_4.tsv,${data_dir}/vqa_train_5.tsv,${data_dir}/vqa_train_6.tsv,${data_dir}/vqa_train_7.tsv,${data_dir}/vqa_train_8.tsv,${data_dir}/vqa_train_9.tsv,${data_dir}/vqa_train_10.tsv,${data_dir}/vqa_val.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
-restore_file=${save_dir}/10_0.04_1e-3_480_stage1/checkpoint_best.pt #TODO
+restore_file=./vqa_checkpoints_1107_beamsearch_2/10_0.04_1e-3_480_stage1/checkpoint_best.pt #TODO
 selected_cols=0,5,2,3,4
 
 
