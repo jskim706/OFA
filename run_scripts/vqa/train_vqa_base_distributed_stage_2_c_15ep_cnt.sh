@@ -73,7 +73,7 @@ val_inference_type=beamsearch
 unconstrained_training_flag=""
 # unconstrained_training_flag="--unconstrained-training"
 
-for max_epoch in 1; do
+for max_epoch in 15; do
   echo "max_epoch "${max_epoch}
   for warmup_ratio in 0.04; do
     echo "warmup_updates "${warmup_ratio}
