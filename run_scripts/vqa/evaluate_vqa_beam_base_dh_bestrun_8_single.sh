@@ -38,5 +38,4 @@ CUDA_VISIBLE_DEVICES=4 python3 -m torch.distributed.launch --nproc_per_node=1 --
     --unnormalized \
     --temperature=1.0 \
     --num-workers=0 \
-    --zero-shot \
-    --bpe-dir=${bpe_dir} \
+    --model-overrides="{\"data\":\"${data}\",\"bpe_dir\":\"${bpe_dir}\",\"selected_cols\":\"${selected_cols}\",\"ans2label_file\":\"${ans2label_file}\",\"valid_batch_size\":\"${valid_batch_size}\"}"
