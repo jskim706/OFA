@@ -27,7 +27,7 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 python3 -m torch.distributed.launch --nproc_per_nod
     --bpe-dir=${bpe_dir} \
     --patch-image-size=480 \
     --prompt-type='none' \
-    --batch-size=8 \
+    --batch-size=16 \
     --log-format=simple --log-interval=10 \
     --seed=7 \
     --gen-subset=${split} \
