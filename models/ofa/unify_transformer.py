@@ -351,6 +351,9 @@ class TransformerModel(FairseqEncoderDecoderModel):
 
         parser.add_argument('--pgf-2nd-stage', action='store_true',
                             help='Training both prompt and enc-dec')
+
+        parser.add_argument('--lora-2nd-stage', action='store_true',
+                            help='Training both prompt and enc-dec')
         # fmt: on
 
     @classmethod
@@ -437,8 +440,12 @@ class TransformerModel(FairseqEncoderDecoderModel):
                 encoder.requires_grad_(True)
                 decoder.requires_grad_(True)
             else:
-                encoder.requires_grad_(False)
-                decoder.requires_grad_(False)
+                if getattr(args, "lora_2nd_stage", False):
+                    pass
+                else:
+                    encoder.requires_grad_(False)
+                    decoder.requires_grad_(False)
+
 
             if getattr(args, "encoder_prompt", False):
                 encoder.encoder_prompt_encoder.requires_grad_(True)
