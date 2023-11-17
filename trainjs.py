@@ -200,7 +200,14 @@ def main(cfg: FairseqConfig) -> None:
             )
             break
 
-        zeroshot_valid_losses, _ = notvalidate_and_save(
+        epoch_itr = trainer.get_train_iterator(
+            epoch_itr.next_epoch_idx,
+            # sharded data: get train iterator for next epoch
+            load_dataset=True,
+            # don't cache epoch iterators for sharded datasets
+            disable_iterator_cache=True,
+        )
+        _, _ = notvalidate_and_save(
             cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=False
         )
         # train for one epoch
