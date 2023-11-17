@@ -13,7 +13,7 @@ split=test
 #val score : 0.7674
 
 data_dir=/data/vqa/vqa_data
-data=${data_dir}/vqa_${split}.tsv
+data=${data_dir}/vqa_test.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
 path=/home/jskim/Projects/OFA/vqa_checkpoints_lora_1116/10_0.04_5e-5_480_stage1/checkpoint_best.pt
 
