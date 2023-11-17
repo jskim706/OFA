@@ -63,7 +63,7 @@ def main(cfg: DictConfig, **kwargs):
         overrides['val_inference_type'] = "beamsearch" if kwargs['beam_search_vqa_eval'] else "allcand"
 
     logger.info("loading model(s) from {}".format(cfg.common_eval.path))
-    if kwargs["zero_shot"]:
+    if True:
         task = tasks.setup_task(cfg.task)
         models, saved_cfg = checkpoint_utils.load_model_ensemble(
             utils.split_paths(cfg.common_eval.path),
@@ -194,7 +194,7 @@ def cli_main():
         main,
         ema_eval=args.ema_eval,
         beam_search_vqa_eval=args.beam_search_vqa_eval,
-        zero_shot=True,
+        zero_shot=args.zero_shot,
     )
 
 
