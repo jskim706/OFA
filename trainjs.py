@@ -188,10 +188,7 @@ def main(cfg: FairseqConfig) -> None:
 
     valid_subsets = cfg.dataset.valid_subset.split(",")
 
-    zeroshot_valid_losses, _ = notvalidate_and_save(
-        cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=False
-    )
-    logger.info(f"zero_shot result is {zeroshot_valid_losses}.")
+
 
     train_meter.start()
     while epoch_itr.next_epoch_idx <= max_epoch:
@@ -203,6 +200,9 @@ def main(cfg: FairseqConfig) -> None:
             )
             break
 
+        zeroshot_valid_losses, _ = notvalidate_and_save(
+            cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=False
+        )
         # train for one epoch
         valid_losses, should_stop = train(cfg, trainer, task, epoch_itr)
         if should_stop:
