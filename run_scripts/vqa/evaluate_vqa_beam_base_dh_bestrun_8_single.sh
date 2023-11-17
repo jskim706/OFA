@@ -21,7 +21,7 @@ result_path=results/vqa_${split}_beam_vqa_checkpoints_lora_111610_0.04_5e-5_480_
 selected_cols=0,5,2,3,4
 valid_batch_size=20
 
-CUDA_VISIBLE_DEVICES=4 python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=${MASTER_PORT} evaluate.py \
+CUDA_VISIBLE_DEVICES=4 python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=${MASTER_PORT} evaluate_gs.py \
     ${data} \
     --path=${path} \
     --user-dir=${user_dir} \
