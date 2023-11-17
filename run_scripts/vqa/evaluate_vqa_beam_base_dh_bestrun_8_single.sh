@@ -13,7 +13,7 @@ split=test
 #val score : 0.7674
 
 data_dir=/data/vqa/vqa_data
-data=${data_dir}/vqa_test.tsv
+data=/data/vqa/vqa_data/vqa_test.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
 path=/home/jskim/Projects/OFA/vqa_checkpoints_lora_1116/10_0.04_5e-5_480_stage1/checkpoint_best.pt
 
@@ -38,3 +38,4 @@ CUDA_VISIBLE_DEVICES=4 python3 -m torch.distributed.launch --nproc_per_node=1 --
     --unnormalized \
     --temperature=1.0 \
     --num-workers=0 \
+    --zero-shot \
