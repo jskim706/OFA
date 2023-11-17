@@ -39,3 +39,4 @@ CUDA_VISIBLE_DEVICES=4 python3 -m torch.distributed.launch --nproc_per_node=1 --
     --temperature=1.0 \
     --num-workers=0 \
     --zero-shot \
+    --bpe-dir=${bpe_dir} \
