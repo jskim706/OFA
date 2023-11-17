@@ -2,7 +2,7 @@
 
 # The port for communication. Note that if you want to run multiple tasks on the same machine,
 # you need to specify different port numbers.
-export MASTER_PORT=8182
+export MASTER_PORT=8183
 
 bpe_dir=utils/BPE
 user_dir=ofa_module
