@@ -33,7 +33,6 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_nod
     --gen-subset=${split} \
     --results-path=${result_path} \
     --fp16 \
-    --beam-search-vqa-eval \
     --zero-shot \
     --beam=20 \
     --unnormalized \
