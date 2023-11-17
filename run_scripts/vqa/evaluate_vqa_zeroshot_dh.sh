@@ -18,7 +18,7 @@ path=checkpoints/ofa_base.pt
 result_path=results/vqa_${split}_zeroshot
 selected_cols=0,5,2,3,4
 
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} ../../evaluate.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=${MASTER_PORT} evaluate.py \
     ${data} \
     --path=${path} \
     --user-dir=${user_dir} \
@@ -33,6 +33,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_nod
     --gen-subset=${split} \
     --results-path=${result_path} \
     --fp16 \
+    --beam-search-vqa-eval \
     --zero-shot \
     --beam=20 \
     --unnormalized \
