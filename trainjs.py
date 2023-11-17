@@ -189,7 +189,7 @@ def main(cfg: FairseqConfig) -> None:
     valid_subsets = cfg.dataset.valid_subset.split(",")
 
     zeroshot_valid_losses, _ = notvalidate_and_save(
-        cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=True
+        cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=False
     )
     logger.info(f"zero_shot result is {zeroshot_valid_losses}.")
 
@@ -431,6 +431,8 @@ def validate_and_save(
         pass
 
     return valid_losses, should_stop
+
+
 def notvalidate_and_save(
     cfg: DictConfig,
     trainer: Trainer,
