@@ -32,7 +32,7 @@ encoder_prompt_length=15
 decoder_prompt_length=15
 
 log_dir=./vqa_logs
-save_dir=./vqa_checkpoints_1107_beamsearch_3
+save_dir=./vqa_checkpoints_1117_forzeroshot
 mkdir -p $log_dir $save_dir
 
 bpe_dir=utils/BPE
