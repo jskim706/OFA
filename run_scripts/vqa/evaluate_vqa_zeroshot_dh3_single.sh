@@ -12,8 +12,8 @@ user_dir=ofa_module
 # val or test
 split=test
 
-data_dir=/data/vqa/vqa_data
-data=${data_dir}/vqa_${split}.tsv
+
+data=/data/vqa/vqa_data/vqa_${split}.tsv
 path=checkpoints/ofa_base.pt
 result_path=results/vqa_${split}_zeroshot
 selected_cols=0,5,2,3,4
