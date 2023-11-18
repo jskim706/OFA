@@ -15,13 +15,13 @@ split=test
 data_dir=/data/vqa/vqa_data
 data=/data/vqa/vqa_data/vqa_test.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
-path=/home/jskim/Projects/OFA/vqa_checkpoints_lora_1116/10_0.04_5e-5_480_stage1/checkpoint_best.pt
+path=/home/jskim/Projects/OFA/vqa_checkpoints_lora_prefix/10_0.04_1e-7_480_stage1/checkpoint_best.pt
 
-result_path=results/vqa_${split}_beam_vqa_checkpoints_lora_111610_0.04_5e-5_480_stage1
+result_path=results/vqa_${split}_beam_vqa_checkpoints_lora_prefix10_0.04_1e-7_480_stage1
 selected_cols=0,5,2,3,4
 valid_batch_size=20
 
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=${MASTER_PORT} evaluate_gs.py \
+CUDA_VISIBLE_DEVICES=4,5,6,7 python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=${MASTER_PORT} evaluate_gs.py \
     ${data} \
     --path=${path} \
     --user-dir=${user_dir} \
