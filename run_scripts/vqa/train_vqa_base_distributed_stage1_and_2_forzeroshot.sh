@@ -19,7 +19,7 @@ export MASTER_PORT=8314
 export RANK=0 
 
 data_dir=/data/vqa/vqa_data
-data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_val.tsv
+data=${data_dir}/vqa_train.tsv,${data_dir}/vqa_test.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/vqa_train_1.tsv,${data_dir}/vqa_train_2.tsv,${data_dir}/vqa_train_3.tsv,${data_dir}/vqa_train_4.tsv,${data_dir}/vqa_train_5.tsv,${data_dir}/vqa_train_6.tsv,${data_dir}/vqa_train_7.tsv,${data_dir}/vqa_train_8.tsv,${data_dir}/vqa_train_9.tsv,${data_dir}/vqa_train_10.tsv,${data_dir}/vqa_val.tsv
 ans2label_file=/data/vqa/vqa_data/trainval_ans2label.pkl
@@ -27,12 +27,12 @@ restore_file=checkpoints/ofa_base.pt
 selected_cols=0,5,2,3,4
 
 
-prompt_type_method=prefix
-encoder_prompt_length=15
-decoder_prompt_length=15
+#prompt_type_method=prefix
+#encoder_prompt_length=15
+#decoder_prompt_length=15
 
 log_dir=./vqa_logs
-save_dir=./vqa_checkpoints_1117_forzeroshot
+save_dir=./vqa_checkpoints_1120_forzeroshot
 mkdir -p $log_dir $save_dir
 
 bpe_dir=utils/BPE
@@ -85,7 +85,7 @@ for max_epoch in 10; do
         save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1
         mkdir -p $save_path
 
-        CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=${GPUS_PER_NODE} --nnodes=${WORKER_CNT} --node_rank=${RANK} --master_port=${MASTER_PORT} trainjs.py \
+        CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=${GPUS_PER_NODE} --nnodes=${WORKER_CNT} --node_rank=${RANK} --master_port=${MASTER_PORT} trainjs2.py \
             ${data} \
             --selected-cols=${selected_cols} \
             --bpe-dir=${bpe_dir} \
@@ -153,12 +153,12 @@ for max_epoch in 10; do
             --ema-start-update=${ema_start_update} \
             --val-inference-type=${val_inference_type} \
             --num-workers=1 \
-            --encoder-prompt \
-            --decoder-prompt \
-            --encoder-prompt-type=${prompt_type_method} \
-            --decoder-prompt-type=${prompt_type_method} \
-            --encoder-prompt-length=${encoder_prompt_length} \
-            --decoder-prompt-length=${decoder_prompt_length} \
+#            --encoder-prompt \
+#            --decoder-prompt \
+#            --encoder-prompt-type=${prompt_type_method} \
+#            --decoder-prompt-type=${prompt_type_method} \
+#            --encoder-prompt-length=${encoder_prompt_length} \
+#            --decoder-prompt-length=${decoder_prompt_length} \
             --wandb-project=vqa_st1_st2
       done
     done
