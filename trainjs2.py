@@ -336,7 +336,8 @@ def train(
         valid_losses, should_stop = validate_and_save(
             cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch
         )
-        print(valid_losses)
+        print(f"valid_losses : {valid_losses}")
+        should_stop = True
         break
         if should_stop:
             break
