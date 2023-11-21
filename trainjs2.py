@@ -192,6 +192,10 @@ def main(cfg: FairseqConfig) -> None:
         epoch=1, load_dataset=True
     )
 
+    # zeroshot_valid_losses, _ = validate_and_save(
+    #     cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=True
+    # )
+    # logger.info(f"zero_shot result is {zeroshot_valid_losses}.")
     train_meter.start()
     while epoch_itr.next_epoch_idx <= max_epoch:
         if lr <= cfg.optimization.stop_min_lr:
@@ -202,10 +206,6 @@ def main(cfg: FairseqConfig) -> None:
             )
             break
 
-        zeroshot_valid_losses, _ = validate_and_save(
-            cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=True
-        )
-        logger.info(f"zero_shot result is {zeroshot_valid_losses}.")
 
         # train for one epoch
         valid_losses, should_stop = train(cfg, trainer, task, epoch_itr)
@@ -336,9 +336,11 @@ def train(
         valid_losses, should_stop = validate_and_save(
             cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch
         )
-
+        print(valid_losses)
+        break
         if should_stop:
             break
+
 
     # log end-of-epoch stats
     logger.info("end of epoch {} (average epoch stats below)".format(epoch_itr.epoch))
