@@ -74,9 +74,9 @@ unconstrained_training_flag=""
 
 for max_epoch in 1; do
   echo "max_epoch "${max_epoch}
-  for warmup_ratio in 0.04; do
+  for warmup_ratio in 0; do
     echo "warmup_updates "${warmup_ratio}
-    for lr in 1e-3; do
+    for lr in 0; do
       echo "lr "${lr}
       for patch_image_size in 480; do
         echo "patch_image_size "${patch_image_size}
