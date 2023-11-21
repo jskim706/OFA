@@ -189,7 +189,7 @@ def main(cfg: FairseqConfig) -> None:
     valid_subsets = cfg.dataset.valid_subset.split(",")
 
     epoch_itr = trainer.get_train_iterator(
-        epoch=1, load_dataset=True, **passthrough_args
+        epoch=1, load_dataset=True
     )
 
     zeroshot_valid_losses, _ = validate_and_save(
