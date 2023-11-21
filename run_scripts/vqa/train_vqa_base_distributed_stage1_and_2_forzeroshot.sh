@@ -81,8 +81,8 @@ for max_epoch in 1; do
       for patch_image_size in 480; do
         echo "patch_image_size "${patch_image_size}
 
-        log_file=${log_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1"_rank"${RANK}".log"
-        save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1
+        log_file=${log_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1_zeroshot"_rank"${RANK}".log"
+        save_path=${save_dir}/${max_epoch}"_"${warmup_ratio}"_"${lr}"_"${patch_image_size}_stage1_zeroshot
         mkdir -p $save_path
 
         CUDA_VISIBLE_DEVICES=4,5,6,7 python3 -m torch.distributed.launch --nproc_per_node=${GPUS_PER_NODE} --nnodes=${WORKER_CNT} --node_rank=${RANK} --master_port=${MASTER_PORT} trainjs2.py \
