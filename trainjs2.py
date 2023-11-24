@@ -144,6 +144,15 @@ def main(cfg: FairseqConfig) -> None:
     else:
         quantizer = None
 
+
+    ################
+    # for m in model:
+    #     if m is not None:
+    #         for p in m.parameters():
+    #             p.requires_grad = False
+    model = model.eval()
+    ################
+
     # Build trainer
     if cfg.common.model_parallel_size == 1:
         trainer = Trainer(cfg, task, model, criterion, quantizer)
@@ -188,48 +197,49 @@ def main(cfg: FairseqConfig) -> None:
 
     valid_subsets = cfg.dataset.valid_subset.split(",")
 
-    with torch.no_grad():
+
+
     # zeroshot_valid_losses, _ = validate_and_save(
     #     cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch=True, zero_shot=True
     # )
     # logger.info(f"zero_shot result is {zeroshot_valid_losses}.")
-        train_meter.start()
-        while epoch_itr.next_epoch_idx <= max_epoch:
-            if lr <= cfg.optimization.stop_min_lr:
-                logger.info(
-                    f"stopping training because current learning rate ({lr}) is smaller "
-                    "than or equal to minimum learning rate "
-                    f"(--stop-min-lr={cfg.optimization.stop_min_lr})"
-                )
-                break
-
-
-            # train for one epoch
-            valid_losses, should_stop = train(cfg, trainer, task, epoch_itr)
-            if should_stop:
-                break
-
-            # only use first validation loss to update the learning rate
-            lr = trainer.lr_step(epoch_itr.epoch, valid_losses[0])
-
-            epoch_itr = trainer.get_train_iterator(
-                epoch_itr.next_epoch_idx,
-                # sharded data: get train iterator for next epoch
-                load_dataset=True,
-                # don't cache epoch iterators for sharded datasets
-                disable_iterator_cache=True,
-            )
-        train_meter.stop()
-        logger.info("done training in {:.1f} seconds".format(train_meter.sum))
-
-        # ioPath implementation to wait for all asynchronous file writes to complete.
-        if cfg.checkpoint.write_checkpoints_asynchronously:
+    train_meter.start()
+    while epoch_itr.next_epoch_idx <= max_epoch:
+        if lr <= cfg.optimization.stop_min_lr:
             logger.info(
-                "ioPath PathManager waiting for all asynchronous checkpoint "
-                "writes to finish."
+                f"stopping training because current learning rate ({lr}) is smaller "
+                "than or equal to minimum learning rate "
+                f"(--stop-min-lr={cfg.optimization.stop_min_lr})"
             )
-            PathManager.async_close()
-            logger.info("ioPath PathManager finished waiting.")
+            break
+
+
+        # train for one epoch
+        valid_losses, should_stop = train(cfg, trainer, task, epoch_itr)
+        if should_stop:
+            break
+
+        # only use first validation loss to update the learning rate
+        lr = trainer.lr_step(epoch_itr.epoch, valid_losses[0])
+
+        epoch_itr = trainer.get_train_iterator(
+            epoch_itr.next_epoch_idx,
+            # sharded data: get train iterator for next epoch
+            load_dataset=True,
+            # don't cache epoch iterators for sharded datasets
+            disable_iterator_cache=True,
+        )
+    train_meter.stop()
+    logger.info("done training in {:.1f} seconds".format(train_meter.sum))
+
+    # ioPath implementation to wait for all asynchronous file writes to complete.
+    if cfg.checkpoint.write_checkpoints_asynchronously:
+        logger.info(
+            "ioPath PathManager waiting for all asynchronous checkpoint "
+            "writes to finish."
+        )
+        PathManager.async_close()
+        logger.info("ioPath PathManager finished waiting.")
 
 
 def should_stop_early(cfg: DictConfig, valid_loss: float) -> bool:
